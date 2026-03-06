@@ -2,8 +2,7 @@ const CACHE_NAME = 'lacasa-cache-v1';
 const assets = [
   './',
   './index.html',
-  './logo.png',
-  './icon-192.png'
+  './logo.png'
 ];
 
 self.addEventListener('install', e => {
