@@ -58,7 +58,11 @@
 </header>
 
 <div class="banner">🚀 Delivery em Areal, Águas Claras e Região</div>
-
+<div style="background:#fff3cd;padding:10px;text-align:center;font-size:13px;border-bottom:1px solid #eee;">
+🎁 Programa Fidelidade: A cada 10 pedidos ganhe uma pizza grátis!
+<br>
+Pontos: <b id="pontos-fidelidade">0</b>/10
+</div>
 <div class="categories">
     <button class="cat-btn active" onclick="filtrar(event,'todas')">Todas</button>
     <button class="cat-btn" onclick="filtrar(event,'salgada')">Salgadas</button>
@@ -277,9 +281,52 @@ function finalizar(){
     let msg = `*NOVO PEDIDO - LA CASA DA PIZZA*%0A%0A*Cliente:* ${n}%0A*End:* ${e}%0A*Bairro:* ${b.options[b.selectedIndex].text}%0A*Pagamento:* ${p}%0A%0A*ITENS:*%0A`;
     carrinho.forEach(item => msg += `• ${item.nome} - R$ ${item.preco.toFixed(2)}%0A  ${item.obs || ''}%0A`);
     msg += `%0A*TOTAL: R$ ${total}*`;
-    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`);
+
+adicionarPonto();
+
+window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`);
+}
+// ===============================
+// PROGRAMA FIDELIDADE
+// ===============================
+
+function carregarPontos(){
+
+let pontos = localStorage.getItem("fidelidadePizza");
+
+if(pontos == null){
+pontos = 0;
 }
 
+document.getElementById("pontos-fidelidade").innerText = pontos;
+
+}
+
+function adicionarPonto(){
+
+let pontos = localStorage.getItem("fidelidadePizza");
+
+if(pontos == null){
+pontos = 0;
+}
+
+pontos++;
+
+if(pontos >= 10){
+
+alert("🎉 Parabéns! Você ganhou uma pizza grátis!");
+
+pontos = 0;
+
+}
+
+localStorage.setItem("fidelidadePizza", pontos);
+
+carregarPontos();
+
+}
+
+carregarPontos();
 window.onload = () => {
     let opts = sabores.filter(s => s.cat !== 'combo').map((s, i) => `<option value="${sabores.indexOf(s)}">${s.nome}</option>`).join("");
     document.getElementById("sabor1").innerHTML = opts; document.getElementById("sabor2").innerHTML = opts;
